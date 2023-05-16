@@ -13,7 +13,7 @@
             <a class="nav-link {{ (request()->is('about')) ? 'active' : '' }}" href="/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ (request()->is('blog')) ? 'active' : '' }}" href="/blog">Blog</a>
+            <a class="nav-link {{ (request()->is('blog')) ? 'active' : '' }}" href="/posts">Blog</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ (request()->is('categories')) ? 'active' : '' }}" href="/categories">Categories</a>
