@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PostController;
-use App\Models\Category;
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardPostController;
+use App\Http\Controllers\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,10 +42,24 @@ Route::get("/post/{post:slug}", [PostController::class, "show"]);
 Route::get("/categories", [CategoryController::class, "categories"]);
 Route::get("/categories/{category:slug}", [CategoryController::class, "category"]);
 
-Route::get("/authors/{author:username}", function(User $author) {
-    return view("posts", [
-        "title" => "Post By Author: $author->name",
-        "posts" => $author->posts->load("category", "author")
-    ]);
-});
+Route::get("/login", [LoginController::class, "index"])->middleware("guest")->name("login");
+Route::post("/login", [LoginController::class, "authenticate"]);
 
+Route::post("/logout", [LoginController::class, "logout"]);
+
+Route::get("/register", [RegisterController::class, "index"])->middleware("guest");
+Route::post("/register", [RegisterController::class, "store"]);
+
+Route::get("/dashboard", function() {
+    return view("dashboard.index");
+})->middleware("auth");
+
+Route::resource("/dashboard/posts", DashboardPostController::class);
+
+
+// Route::get("/authors/{author:username}", function(User $author) {
+//     return view("posts", [
+//         "title" => "Post By Author: $author->name",
+//         "posts" => $author->posts->load("category", "author")
+//     ]);
+// });
